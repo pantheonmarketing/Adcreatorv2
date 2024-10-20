@@ -176,7 +176,7 @@ export function AdEditorComponent({ generatedAd, onUpdate, onSave, onCancel }: A
         const value = args[0] as string;
         handleChange('Text' as keyof GeneratedAd, value, position);
       }, 300),
-      [position, handleChange]
+      [position] // Remove handleChange from here
     );
 
     useEffect(() => {
