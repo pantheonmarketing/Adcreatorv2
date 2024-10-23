@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 
-const AdEditor = ({ generatedAd, onDownload }) => {
+const AdEditor = ({ generatedAd }) => {
   const canvasRef = useRef(null);
   const [imageLoaded, setImageLoaded] = useState(false);
 
@@ -178,80 +178,17 @@ const AdEditor = ({ generatedAd, onDownload }) => {
     }
   };
 
-  const handleDownload = () => {
-    if (canvasRef.current) {
-      const dataUrl = canvasRef.current.toDataURL('image/png');
-      onDownload(dataUrl);
-    }
-  };
-
-  const handleDownloadHtml = () => {
-    if (canvasRef.current) {
-      const dataUrl = canvasRef.current.toDataURL('image/png');
-      const htmlContent = `
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-          <meta charset="UTF-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Generated Ad</title>
-          <style>
-            body { font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; }
-            h1 { color: #333; }
-            h2 { color: #666; }
-            img { max-width: 100%; height: auto; }
-            pre { background-color: #f4f4f4; padding: 15px; border-radius: 5px; }
-          </style>
-        </head>
-        <body>
-          <h1>Generated Ad</h1>
-          <h2>Ad Image</h2>
-          <img src="${dataUrl}" alt="Generated Ad Image" width="1080" height="1080">
-          <h2>Ad Copy - Variation 1</h2>
-          <pre>${generatedAd.adScript.variation1}</pre>
-          <h2>Ad Copy - Variation 2</h2>
-          <pre>${generatedAd.adScript.variation2}</pre>
-        </body>
-        </html>
-      `;
-
-      const blob = new Blob([htmlContent], { type: 'text/html' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = 'generated_ad.html';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
-    }
-  };
-
   return (
     <div className="w-full">
       <canvas
         ref={canvasRef}
-        style={{ width: '100%', height: 'auto', display: imageLoaded ? 'block' : 'none' }}
+        style={{ width: '100%', height: 'auto', maxWidth: '100%', display: imageLoaded ? 'block' : 'none' }}
       />
       {!imageLoaded && (
         <div className="w-full h-64 bg-gray-200 flex items-center justify-center">
           Loading image...
         </div>
       )}
-      <div className="mt-4 flex space-x-2">
-        <button
-          onClick={handleDownload}
-          className="bg-green-500 text-white py-2 px-4 rounded"
-        >
-          Download Image
-        </button>
-        <button
-          onClick={handleDownloadHtml}
-          className="bg-blue-500 text-white py-2 px-4 rounded"
-        >
-          Download Image + Text
-        </button>
-      </div>
     </div>
   );
 };

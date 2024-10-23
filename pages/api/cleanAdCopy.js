@@ -14,9 +14,21 @@ export default async function handler(req, res) {
 
   1. Remove any unrealistic claims, personal targeting, or promises of guaranteed success. Avoid sensationalism, before/after comparisons, and fear-inducing language. Ensure testimonials are realistic and add disclaimers when necessary.
 
-  2. Reword the text in a conversational tone, focusing on benefits instead of features. Keep the language simple, friendly, and direct, making the ad feel like a personal conversation. Highlight the journey or process instead of promising results, and frame the message positively.
+  2. Make all personal references more general:
+     - Replace specific names with general demographic descriptions
+     - Convert singular references to plural (e.g., "a mom who wants" → "moms who want")
+     - Remove personal pronouns in favor of general terms
+     - Examples:
+       ❌ "John hopes to reconnect with his wife" 
+       ✅ "Married men hoping to reconnect with their wives"
+       ❌ "Sarah, a busy mom of two" 
+       ✅ "Busy moms with young children"
+       ❌ "Mike wants to earn $5000/month from home" 
+       ✅ "People looking to build income from home"
 
-  3. Return the cleaned and reformatted text for each field, maintaining the original structure.
+  3. Reword the text in a conversational tone, focusing on benefits instead of features. Keep the language simple, friendly, and direct, making the ad feel like a personal conversation. Highlight the journey or process instead of promising results, and frame the message positively.
+
+  4. Return the cleaned and reformatted text for each field, maintaining the original structure.
 
   Here is the input data:
   ${JSON.stringify(adData, null, 2)}
